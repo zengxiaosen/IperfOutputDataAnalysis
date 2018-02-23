@@ -72,6 +72,10 @@ public:
         zbInfoNode::allpackets = allpackets;
     }
 
+    void toString(){
+        cout << "bandwidth: " << bandwidth << ", packetloss: " << losspackets << ", allpackets: " << allpackets << endl;
+    }
+
 private:
     //丢包数
     string allpackets; //总包数
@@ -139,24 +143,41 @@ map<string, zbInfoNode>  ReadDataFromFileLBLIntoCharArray(string s)
         //example:4
         //cout << strs[11] << endl;
         char* p = strtok((char *) strs[2].c_str(), "-");
+        string temp_p = p;
+        int int_p = atoi(temp_p.c_str());
+        //cout << int_p << endl;
         zbInfoNode zb;
-        zb.setSrcIp(srcIP);
-        zb.setDstIp(dstIP);
+        if(int_p >= 9){
+            zb.setSrcIp(srcIP);
+            zb.setDstIp(dstIP);
 
-        zb.setBandwidth(strs[6]);
-        zb.setIndex(p);
-        zb.setAllpackets(strs[11]);
-        zb.setLosspackets(strs[10]);
+            zb.setBandwidth(strs[6]);
+            zb.setIndex(p);
+            zb.setAllpackets(strs[11]);
+            zb.setLosspackets(strtok((char *) strs[10].c_str(), "/"));
 
-        //cout << strs[2] << endl;
+            //cout << strtok((char *) strs[10].c_str(), "/") << endl;
+            //cout << strs[2] << endl;
 
-//        for(auto s : strs){
-//            cout << s << endl;
-//        }
+            //cout << p << endl;
+            map.insert(pair<string, zbInfoNode>(p, zb));
+            //cout << "map.size() = " << map.size() << endl;
+        }else{
+            zb.setSrcIp(srcIP);
+            zb.setDstIp(dstIP);
+            zb.setIndex(p);
+//            for(auto s: strs){
+//                cout << s << endl;
+//            }
+            //cout << strs[7] << endl;
+            zb.setBandwidth(strs[7]);
+            //cout << strs[12] << endl;
+            zb.setAllpackets(strs[12]);
+            //cout << strs[11] << endl;
+            zb.setLosspackets(strtok((char *) strs[11].c_str(), "/"));
+        }
 
-        //cout << p << endl;
-        map.insert(pair<string, zbInfoNode>(p, zb));
-        //cout << "map.size() = " << map.size() << endl;
+
 
         j++;
     }
@@ -198,7 +219,28 @@ void readQueue(queue<string> &queue) {
              * key:第几秒
              * value：zbinfoNode
              */
+            for(const pair<string, zbInfoNode> & maplocal : map){
+                string key = maplocal.first;
+                zbInfoNode value = maplocal.second;
+//                cout << "key: " << key << endl;
+//                cout << "value: " << endl;
+                /**
+                 * 这里注意，10以下的key解析出现字段错位
+                 *  key: 6.0
+                    value:
+                    bandwidth: KBytes, packetloss: ms, allpackets: 0/
+                    待修复
+                 */
+//                value.toString();
+                if(index_bandwitdh[key] == ""){
+                    index_bandwitdh[key] = "0";
+                }
 
+//                index_bandwitdh[key] = atoi(index_bandwitdh[key].c_str()) + atoi(value.getBandwidth().c_str());
+//                cout << index_bandwitdh[key] << endl;
+
+            }
+            //cout << "==========" << endl;
 
             queue.pop();
         }else{
