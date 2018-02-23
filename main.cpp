@@ -9,6 +9,20 @@
 
 using namespace std;
 
+void readQueue(queue<string>& queue){
+    int n = queue.size();
+    string e;
+    for(int i=0; i< n; i++){
+        e = queue.front();
+        cout << e << " ";
+        queue.pop();
+    }
+    if(queue.empty()){
+        cout << endl;
+
+    }
+
+}
 
 int main() {
 
@@ -42,8 +56,13 @@ int main() {
     }
 
     cout << "q_server.size() : " << q_server.size() << endl;
+    readQueue(q_server);
     cout << "q_client.size() : " << q_client.size() << endl;
+    readQueue(q_client);
 
+    /**
+     *
+     */
 
     return 0;
 }

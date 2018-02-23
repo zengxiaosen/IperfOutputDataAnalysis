@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/root/CLionProjects/IperfOutputDataAnalysis/main.cpp
+iostream
+-
+vector
+-
+fstream
+-
+string
+-
+stdio.h
+-
+dirent.h
+-
+queue
+-
+cstring
+-
+
