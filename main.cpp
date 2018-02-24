@@ -193,17 +193,17 @@ void readQueue(queue<string> &queue) {
      * key index
      * value 第index秒的平均带宽
      */
-    map<string, string> index_bandwitdh;
+    map<string, int> index_bandwitdh;
     /**
      * key index
      * value 第index秒的总丢包数
      */
-    map<string, string> index_droppackets;
+    map<string, int> index_droppackets;
     /**
      * key index
      * value 第index秒的总传输包数
      */
-    map<string, string> index_allpackets;
+    map<string, int> index_allpackets;
 
 
     for(int i=0; i< n; i++){
@@ -222,7 +222,7 @@ void readQueue(queue<string> &queue) {
             for(const pair<string, zbInfoNode> & maplocal : map){
                 string key = maplocal.first;
                 zbInfoNode value = maplocal.second;
-//                cout << "key: " << key << endl;
+                cout << "key: " << key << endl;
 //                cout << "value: " << endl;
                 /**
                  * 这里注意，10以下的key解析出现字段错位
@@ -230,17 +230,26 @@ void readQueue(queue<string> &queue) {
                     value:
                     bandwidth: KBytes, packetloss: ms, allpackets: 0/
                     待修复
+
+                    status:已修复
                  */
 //                value.toString();
-                if(index_bandwitdh[key] == ""){
-                    index_bandwitdh[key] = "0";
+                if(index_bandwitdh[key] == 0 || index_bandwitdh[key] == NULL){
+                    index_bandwitdh[key] = 0;
                 }
+                int base_bandwith = index_bandwitdh[key];
+                //cout << base_bandwith << endl;
+                int add_bandwith = atoi(value.getBandwidth().c_str());
+                //cout << add_bandwith << endl;
+                int tempsum_bandwith = base_bandwith + add_bandwith;
 
-//                index_bandwitdh[key] = atoi(index_bandwitdh[key].c_str()) + atoi(value.getBandwidth().c_str());
-//                cout << index_bandwitdh[key] << endl;
+                index_bandwitdh[key] = tempsum_bandwith;
+                cout << index_bandwitdh[key] << endl;
+
+
 
             }
-            //cout << "==========" << endl;
+            cout << "==========" << endl;
 
             queue.pop();
         }else{
@@ -250,6 +259,13 @@ void readQueue(queue<string> &queue) {
 
 
     }
+
+
+    /**
+     * test 三个统计的hashmap
+     */
+
+
     if(queue.empty()){
         cout << endl;
 
