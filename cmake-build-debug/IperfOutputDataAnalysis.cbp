@@ -84,7 +84,19 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/Tools.cpp">
+			<Option target="IperfOutputDataAnalysis"/>
+		</Unit>
+		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/Tools.h">
+			<Option target="IperfOutputDataAnalysis"/>
+		</Unit>
 		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/main.cpp">
+			<Option target="IperfOutputDataAnalysis"/>
+		</Unit>
+		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/zbInfoNode.cpp">
+			<Option target="IperfOutputDataAnalysis"/>
+		</Unit>
+		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/zbInfoNode.h">
 			<Option target="IperfOutputDataAnalysis"/>
 		</Unit>
 		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/CMakeLists.txt">

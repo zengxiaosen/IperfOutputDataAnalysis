@@ -3,5 +3,5 @@ project(IperfOutputDataAnalysis)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp Tools.cpp Tools.h zbInfoNode.cpp zbInfoNode.h)
 add_executable(IperfOutputDataAnalysis ${SOURCE_FILES})

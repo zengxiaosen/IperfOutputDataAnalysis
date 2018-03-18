@@ -1,5 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/IperfOutputDataAnalysis.dir/main.cpp.o"
+  "CMakeFiles/IperfOutputDataAnalysis.dir/Tools.cpp.o"
+  "CMakeFiles/IperfOutputDataAnalysis.dir/zbInfoNode.cpp.o"
   "IperfOutputDataAnalysis.pdb"
   "IperfOutputDataAnalysis"
 )
