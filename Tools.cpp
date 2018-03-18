@@ -63,6 +63,17 @@ void Tools::readQueueClient(queue<string> q) {
     }
     //平均每条流的丢包率
     cout << "平均每条流的丢包率" << sum / n << "%" << endl;
+    double meanPL = sum / n;
+    //每次测试，比如iperf 300秒，会产生一个值
+    //第1行，代表源目打3M， link capacity为 10M
+    //第2行，代表源目打4M， link capacity为 10M
+    //以此类推，第 9行，代表源目打9M， link capacity为 10M
+    string filePath = "/home/zengxiaosen/packetLoss.log";
+    ConcatToFile(meanPL, filePath);
+}
+
+void Tools::ConcatToFile(double pl, string basic_string) {
+    //追加写
 }
 
 map<double, zbInfoNode, less<double>>  Tools::ReadDataFromFileLBLIntoCharArray(string s)
@@ -337,5 +348,7 @@ void Tools::readQueue(queue<string> &queue) {
     }
 
 }
+
+
 
 

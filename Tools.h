@@ -15,6 +15,8 @@ public:
     void readQueue(queue<string> &queue);
     map<double, zbInfoNode, less<double>>  ReadDataFromFileLBLIntoCharArray(string s);\
     double ReadClientDataFromFileToDouble(string s);
+
+    void ConcatToFile(double pl, string basic_string);
 };
 
 
