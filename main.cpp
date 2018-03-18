@@ -60,7 +60,7 @@ int main() {
     map<string, zbInfoNode> index_infoServerNode;
 
     Tools tools;
-    tools.readQueue(q_server);
+    //tools.readQueue(q_server);
     tools.readQueueClient(q_client);
 
 
