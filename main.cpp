@@ -46,15 +46,28 @@ int main() {
                 continue;
             //cout << entry->d_name << endl;
             string s = entry->d_name;
-            if(strstr(s.c_str(), "delay") == NULL){
-                //非delay
-                if(strstr(s.c_str(), "client") == NULL){
-                    //不存在client字符串
-                    q_server.push(s);
-                } else{
+            //cout << s << endl;
+            // strstr(s.c_str(), "delay") == NULL
+            string::size_type idx = s.find("delay");
+            if(idx != string::npos){
+                //字符串含有delay字串
+                //不处理
+
+            }else{
+                //字符串不含字串
+                idx = s.find("c");
+                if(idx != string::npos){
+                    //字符串含有client子串
                     q_client.push(s);
+                    //cout << s << endl;
+                }else{
+                    //字符串不含client字串
+                    //server端
+
+                    q_server.push(s);
                 }
             }
+
         }
     }
     map<string, zbInfoNode> index_infoServerNode;
@@ -62,6 +75,8 @@ int main() {
     Tools tools;
     //tools.readQueue(q_server);
     tools.readQueueClient(q_client);
+    cout << "q_client.size(): " << q_client.size() << endl;
+
 
 
 

@@ -14,21 +14,52 @@
 #include <iterator>
 
 using namespace std;
+
+void Tools::ReadClientDataFromFileToMap(string s) {
+    //cout << s << endl;
+    ifstream fin(s);
+    const   int  LINE_LENGTH =  100 ;
+    char  str[LINE_LENGTH];
+    int i = 0;
+    //过滤前7行
+    while( fin.getline(str, LINE_LENGTH) && i < 9){
+        i++;
+    }
+    //到达有信息的行
+    while( fin.getline(str, LINE_LENGTH) && i < 10){
+        i++;
+        istringstream iss(str);
+        vector<string> strs{istream_iterator<string>(iss), istream_iterator<string>()};
+//        for(string s : strs){
+//            cout << s << endl;
+//        }
+
+        // strs[11] : (0%)
+        string strs11_etl = strs[11].substr(1, strs.size());
+        cout << strs11_etl << endl;
+
+
+    }
+}
+
 void Tools::readQueueClient(queue<string> q) {
     int n = q.size();
     string e;
+    map<string, string> file_packetloss;
     for(int i=0; i< n; i++){
         e = q.front();
         string frontstring = "/home/zengxiaosen/log/";
         if(e.find("client") != -1){
-
+            //frontstring+e 就是要读的文件名
+            ReadClientDataFromFileToMap(frontstring+e);
         }
+        q.pop();
     }
 }
 
 map<double, zbInfoNode, less<double>>  Tools::ReadDataFromFileLBLIntoCharArray(string s)
 {
-
+    cout << s << endl;
     map<double, zbInfoNode, less<double>> map;
     ifstream fin(s);
     const   int  LINE_LENGTH =  100 ;
@@ -183,8 +214,8 @@ void Tools::readQueue(queue<string> &queue) {
             for(const pair<double, zbInfoNode> & maplocal : map){
                 double key = maplocal.first;
                 zbInfoNode value = maplocal.second;
-                cout << "key: " << key << endl;
-                cout << "value: " << endl;
+//                cout << "key: " << key << endl;
+//                cout << "value: " << endl;
                 /**
                  * 这里注意，10以下的key解析出现字段错位
                  *  key: 6.0
@@ -195,7 +226,7 @@ void Tools::readQueue(queue<string> &queue) {
                     status:已修复
                  */
 
-                value.toString();
+                //value.toString();
 
                 /**
                  * 对bandwith进行秒级别的聚合
@@ -292,13 +323,11 @@ void Tools::readQueue(queue<string> &queue) {
 
         it++;
     }
-
-
-
-
     if(queue.empty()){
         cout << endl;
 
     }
 
 }
+
+

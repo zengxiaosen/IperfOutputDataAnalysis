@@ -13,7 +13,8 @@ class Tools {
 public:
     void readQueueClient(queue<string> q);
     void readQueue(queue<string> &queue);
-    map<double, zbInfoNode, less<double>>  ReadDataFromFileLBLIntoCharArray(string s);
+    map<double, zbInfoNode, less<double>>  ReadDataFromFileLBLIntoCharArray(string s);\
+    void ReadClientDataFromFileToMap(string s);
 };
 
 
