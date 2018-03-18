@@ -15,8 +15,9 @@
 
 using namespace std;
 
-void Tools::ReadClientDataFromFileToMap(string s) {
+double Tools::ReadClientDataFromFileToDouble(string s) {
     //cout << s << endl;
+    double result = 0;
     ifstream fin(s);
     const   int  LINE_LENGTH =  100 ;
     char  str[LINE_LENGTH];
@@ -35,26 +36,33 @@ void Tools::ReadClientDataFromFileToMap(string s) {
 //        }
 
         // strs[11] : (0%)
-        string strs11_etl = strs[11].substr(1, strs.size());
-        cout << strs11_etl << endl;
-
-
+        string strs11_etl = strs[11].substr(1, strs[11].size()-2);
+        // strs11_etl : 0.012%
+        double packetls = atof(strs11_etl.substr(0, strs11_etl.size()-1).c_str());
+        //packetls : 0.012
+        //cout << packetls << " " << endl;
+        result = packetls;
     }
+    return result;
+
 }
 
 void Tools::readQueueClient(queue<string> q) {
     int n = q.size();
     string e;
     map<string, string> file_packetloss;
+    double sum = 0;
     for(int i=0; i< n; i++){
         e = q.front();
         string frontstring = "/home/zengxiaosen/log/";
         if(e.find("client") != -1){
             //frontstring+e 就是要读的文件名
-            ReadClientDataFromFileToMap(frontstring+e);
+            sum += ReadClientDataFromFileToDouble(frontstring+e);
         }
         q.pop();
     }
+    //平均每条流的丢包率
+    cout << "平均每条流的丢包率" << sum / n << "%" << endl;
 }
 
 map<double, zbInfoNode, less<double>>  Tools::ReadDataFromFileLBLIntoCharArray(string s)
