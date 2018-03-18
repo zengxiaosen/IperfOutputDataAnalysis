@@ -80,11 +80,10 @@ private:
     //丢包数
     string allpackets; //总包数
 };
-
-map<string, zbInfoNode>  ReadDataFromFileLBLIntoCharArray(string s)
+map<double, zbInfoNode, less<double>>  ReadDataFromFileLBLIntoCharArray(string s)
 {
 
-    map<string, zbInfoNode> map;
+    map<double, zbInfoNode, less<double>> map;
     ifstream fin(s);
     const   int  LINE_LENGTH =  100 ;
     char  str[LINE_LENGTH];
@@ -143,7 +142,9 @@ map<string, zbInfoNode>  ReadDataFromFileLBLIntoCharArray(string s)
         //example:4
         //cout << strs[11] << endl;
         char* p = strtok((char *) strs[2].c_str(), "-");
+
         string temp_p = p;
+
         int int_p = atoi(temp_p.c_str());
         //cout << int_p << endl;
         zbInfoNode zb;
@@ -160,7 +161,9 @@ map<string, zbInfoNode>  ReadDataFromFileLBLIntoCharArray(string s)
             //cout << strs[2] << endl;
 
             //cout << p << endl;
-            map.insert(pair<string, zbInfoNode>(p, zb));
+
+            double p_d = atof(p);
+            map.insert(pair<double, zbInfoNode>(p_d, zb));
             //cout << "map.size() = " << map.size() << endl;
         }else{
             zb.setSrcIp(srcIP);
@@ -175,7 +178,8 @@ map<string, zbInfoNode>  ReadDataFromFileLBLIntoCharArray(string s)
             zb.setAllpackets(strs[12]);
             //cout << strs[11] << endl;
             zb.setLosspackets(strtok((char *) strs[11].c_str(), "/"));
-            map.insert(pair<string, zbInfoNode>(p, zb));
+            double p_d = atof(p);
+            map.insert(pair<double, zbInfoNode>(p_d, zb));
         }
 
 
@@ -195,17 +199,17 @@ void readQueue(queue<string> &queue) {
      * key index
      * value 第index秒的平均带宽
      */
-    map<string, int> index_bandwitdh;
+    map<double, int> index_bandwitdh;
     /**
      * key index
      * value 第index秒的总丢包数
      */
-    map<string, int> index_droppackets;
+    map<double, int> index_droppackets;
     /**
      * key index
      * value 第index秒的总传输包数
      */
-    map<string, int> index_allpackets;
+    map<double, int> index_allpackets;
 
 
     for(int i=0; i< n; i++){
@@ -213,23 +217,23 @@ void readQueue(queue<string> &queue) {
         string frontstring = "/home/zengxiaosen/log/";
         if(e.find("client") == -1){
             //没找到，即为server类型
-            map<string, zbInfoNode> map = ReadDataFromFileLBLIntoCharArray(frontstring+e);
+            map<double, zbInfoNode, less<double>> map = ReadDataFromFileLBLIntoCharArray(frontstring+e);
             /**
              * map.size() = 51 而不是 60 待修复
              * status: 已修复
              */
 
-            //cout << "map.size()" << map.size() << endl;
+            cout << "map.size()" << map.size() << endl;
 
             /**
              * key:第几秒
              * value：zbinfoNode
              */
-            for(const pair<string, zbInfoNode> & maplocal : map){
-                string key = maplocal.first;
+            for(const pair<double, zbInfoNode> & maplocal : map){
+                double key = maplocal.first;
                 zbInfoNode value = maplocal.second;
-//                cout << "key: " << key << endl;
-//                cout << "value: " << endl;
+                cout << "key: " << key << endl;
+                cout << "value: " << endl;
                 /**
                  * 这里注意，10以下的key解析出现字段错位
                  *  key: 6.0
@@ -239,7 +243,7 @@ void readQueue(queue<string> &queue) {
 
                     status:已修复
                  */
-//                value.toString();
+                value.toString();
 
                 /**
                  * 对bandwith进行秒级别的聚合
@@ -314,12 +318,13 @@ void readQueue(queue<string> &queue) {
      * 写到数据库
      * springboot或django展示
      */
+    map<double, int>::iterator it;
+    it = index_bandwitdh.begin();
+    //auto index_bandwith_begin = index_bandwitdh.begin();
+    while(it != index_bandwitdh.end()){
 
-    auto index_bandwith_begin = index_bandwitdh.begin();
-    while(index_bandwith_begin != index_bandwitdh.end()){
-
-        string key = index_bandwith_begin->first;
-        int value = index_bandwith_begin->second;
+        double key = it->first;
+        int value = it->second;
         double meanvalue = value / 16; //目前设置的是16条流
         /**
          * key value写入数据库
@@ -332,7 +337,7 @@ void readQueue(queue<string> &queue) {
 
 
 
-        index_bandwith_begin++;
+        it++;
     }
 
 
@@ -350,45 +355,43 @@ int main() {
     /**
      * 读取文件信息
      */
-    cout << "统计iperf产出的流量日志信息" << std::endl;
 
     /**
      * 说明：
-     * 注释调的代码是用mininet产出的数据做带宽相关的统计
+     * 版本一是用mininet产出的数据做带宽相关的统计
      * 但目前版本此部分功能已经改成用控制器onos来统计了
      * 同时，统计mininet产出的log无法统计link级别的带宽（bps）
      * 只能统计流级别的带宽（bps）
      * 所以带宽方面的统计全部移交控制器
      */
-//    DIR *directory_pointer;
-//    struct dirent *entry;
-//    queue<string> q_server;
-//    queue<string> q_client;
-//    if((directory_pointer=opendir("/home/zengxiaosen/log")) == NULL){
-//        cout << "Error open\n" << endl;
-//        return 2;
-//    }else{
-//        while((entry = readdir(directory_pointer)) != NULL){
-//            if(entry->d_name[0] == '.')
-//                continue;
-//            //cout << entry->d_name << endl;
-//            string s = entry->d_name;
-//            if(strstr(s.c_str(), "delay") == NULL){
-//                //非delay
-//                if(strstr(s.c_str(), "client") == NULL){
-//                    //不存在client字符串
-//                    q_server.push(s);
-//                } else{
-//                    q_client.push(s);
-//                }
-//            }
-//        }
-//    }
-//    map<string, zbInfoNode> index_infoServerNode;
-//    readQueue(q_server);
-// readQueueClient(q_client);
-
-// ===================================================
+    cout << "统计iperf产出的流量日志信息" << std::endl;
+    DIR *directory_pointer;
+    struct dirent *entry;
+    queue<string> q_server;
+    queue<string> q_client;
+    if((directory_pointer=opendir("/home/zengxiaosen/log")) == NULL){
+        cout << "Error open\n" << endl;
+        return 2;
+    }else{
+        while((entry = readdir(directory_pointer)) != NULL){
+            if(entry->d_name[0] == '.')
+                continue;
+            //cout << entry->d_name << endl;
+            string s = entry->d_name;
+            if(strstr(s.c_str(), "delay") == NULL){
+                //非delay
+                if(strstr(s.c_str(), "client") == NULL){
+                    //不存在client字符串
+                    q_server.push(s);
+                } else{
+                    q_client.push(s);
+                }
+            }
+        }
+    }
+    map<string, zbInfoNode> index_infoServerNode;
+    readQueue(q_server);
+    //readQueueClient(q_client);
 
 
 
