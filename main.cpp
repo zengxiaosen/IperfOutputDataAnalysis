@@ -304,7 +304,7 @@ void readQueue(queue<string> &queue) {
 
     /**
      * test 三个统计的hashmap
-     * 得到1分钟内每秒的所有流的带宽信息，丢包信息，总包数信息
+     * 得到1分钟内每秒的所有流的带宽信息，丢包信息，总包数信息(16条)
      */
     cout << "index_bandwitdh.size(): " << index_bandwitdh.size() << endl;
     cout << "index_droppackets.size(): " << index_droppackets.size() << endl;
@@ -314,6 +314,26 @@ void readQueue(queue<string> &queue) {
      * 写到数据库
      * springboot或django展示
      */
+
+    auto index_bandwith_begin = index_bandwitdh.begin();
+    while(index_bandwith_begin != index_bandwitdh.end()){
+
+        string key = index_bandwith_begin->first;
+        int value = index_bandwith_begin->second;
+        double meanvalue = value / 16; //目前设置的是16条流
+        /**
+         * key value写入数据库
+         * key 1-60(0-59)
+         * value 每秒 16条流的平均值
+         */
+
+
+        //===========================================
+
+
+
+        index_bandwith_begin++;
+    }
 
 
 
@@ -331,35 +351,44 @@ int main() {
      * 读取文件信息
      */
     cout << "统计iperf产出的流量日志信息" << std::endl;
-    DIR *directory_pointer;
-    struct dirent *entry;
-    queue<string> q_server;
-    queue<string> q_client;
-    if((directory_pointer=opendir("/home/zengxiaosen/log")) == NULL){
-        cout << "Error open\n" << endl;
-        return 2;
-    }else{
-        while((entry = readdir(directory_pointer)) != NULL){
-            if(entry->d_name[0] == '.')
-                continue;
-            //cout << entry->d_name << endl;
-            string s = entry->d_name;
-            if(strstr(s.c_str(), "delay") == NULL){
-                //非delay
-                if(strstr(s.c_str(), "client") == NULL){
-                    //不存在client字符串
-                    q_server.push(s);
-                } else{
-                    q_client.push(s);
-                }
-            }
-        }
-    }
 
-    map<string, zbInfoNode> index_infoServerNode;
+    /**
+     * 说明：
+     * 注释调的代码是用mininet产出的数据做带宽相关的统计
+     * 但目前版本此部分功能已经改成用控制器onos来统计了
+     * 同时，统计mininet产出的log无法统计link级别的带宽（bps）
+     * 只能统计流级别的带宽（bps）
+     * 所以带宽方面的统计全部移交控制器
+     */
+//    DIR *directory_pointer;
+//    struct dirent *entry;
+//    queue<string> q_server;
+//    queue<string> q_client;
+//    if((directory_pointer=opendir("/home/zengxiaosen/log")) == NULL){
+//        cout << "Error open\n" << endl;
+//        return 2;
+//    }else{
+//        while((entry = readdir(directory_pointer)) != NULL){
+//            if(entry->d_name[0] == '.')
+//                continue;
+//            //cout << entry->d_name << endl;
+//            string s = entry->d_name;
+//            if(strstr(s.c_str(), "delay") == NULL){
+//                //非delay
+//                if(strstr(s.c_str(), "client") == NULL){
+//                    //不存在client字符串
+//                    q_server.push(s);
+//                } else{
+//                    q_client.push(s);
+//                }
+//            }
+//        }
+//    }
+//    map<string, zbInfoNode> index_infoServerNode;
+//    readQueue(q_server);
+// readQueueClient(q_client);
 
-    readQueue(q_server);
-    //readQueueClient(q_client);
+// ===================================================
 
 
 
