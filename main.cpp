@@ -73,8 +73,8 @@ int main() {
     map<string, zbInfoNode> index_infoServerNode;
 
     Tools tools;
-    //tools.readQueue(q_server);
-    tools.readQueueClient(q_client);
+    tools.readQueue(q_server);
+    //tools.readQueueClient(q_client);
     cout << "q_client.size(): " << q_client.size() << endl;
 
 

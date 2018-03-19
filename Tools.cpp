@@ -173,9 +173,15 @@ map<double, zbInfoNode, less<double>>  Tools::ReadDataFromFileLBLIntoCharArray(s
             //cout << strs[7] << endl;
             zb.setBandwidth(strs[7]);
             //cout << strs[12] << endl;
-            zb.setAllpackets(strs[12]);
+            if (strs.size() >= 13)
+                zb.setAllpackets(strs[12]);
+            else
+                zb.setAllpackets("0");
             //cout << strs[11] << endl;
-            zb.setLosspackets(strtok((char *) strs[11].c_str(), "/"));
+            if (strs.size() >= 12)
+                zb.setLosspackets(strtok((char *) strs[11].c_str(), "/"));
+            else
+                zb.setLosspackets("0");
             double p_d = atof(p);
             map.insert(pair<double, zbInfoNode>(p_d, zb));
         }
