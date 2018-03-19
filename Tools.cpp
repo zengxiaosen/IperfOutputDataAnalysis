@@ -171,6 +171,7 @@ map<double, zbInfoNode, less<double>>  Tools::ReadDataFromFileLBLIntoCharArray(s
 //                cout << s << endl;
 //            }
             //cout << strs[7] << endl;
+            //这个值没意义，是打流的时候的流速...
             zb.setBandwidth(strs[7]);
             //cout << strs[12] << endl;
             if (strs.size() >= 13)
