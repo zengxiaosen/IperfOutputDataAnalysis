@@ -74,7 +74,7 @@ int main() {
 
     Tools tools;
     tools.readQueue(q_server);
-    tools.readQueueClient(q_client);
+    //tools.readQueueClient(q_client);
     cout << "q_client.size(): " << q_client.size() << endl;
 
 

@@ -17,6 +17,8 @@ public:
     double ReadClientDataFromFileToDouble(string s);
 
     void ConcatToFile(double pl, string basic_string);
+
+    double ReadServerDataFromFileToDouble(string s);
 };
 
 

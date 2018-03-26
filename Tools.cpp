@@ -200,163 +200,63 @@ map<double, zbInfoNode, less<double>>  Tools::ReadDataFromFileLBLIntoCharArray(s
 
 }
 
-void Tools::readQueue(queue<string> &queue) {
-    int n = queue.size();
+void Tools::readQueue(queue<string> &q) {
+    int n = q.size();
     string e;
-    /**
-     * key index
-     * value 第index秒的平均带宽
-     */
-    map<double, int> index_bandwitdh;
-    /**
-     * key index
-     * value 第index秒的总丢包数
-     */
-    map<double, int> index_droppackets;
-    /**
-     * key index
-     * value 第index秒的总传输包数
-     */
-    map<double, int> index_allpackets;
-
-
+    map<string, string> file_packetloss;
+    double sum = 0;
     for(int i=0; i< n; i++){
-        e = queue.front();
+        e = q.front();
         string frontstring = "/home/zengxiaosen/log/";
         if(e.find("client") == -1){
-            //没找到，即为server类型
-            map<double, zbInfoNode, less<double>> map = ReadDataFromFileLBLIntoCharArray(frontstring+e);
-            //map<double, zbInfoNode, less<double>> map;
-            /**
-             * map.size() = 51 而不是 60 待修复
-             * status: 已修复
-             */
-
-            cout << "map.size()" << map.size() << endl;
-
-            /**
-             * key:第几秒
-             * value：zbinfoNode
-             */
-            for(const pair<double, zbInfoNode> & maplocal : map){
-                double key = maplocal.first;
-                zbInfoNode value = maplocal.second;
-//                cout << "key: " << key << endl;
-//                cout << "value: " << endl;
-                /**
-                 * 这里注意，10以下的key解析出现字段错位
-                 *  key: 6.0
-                    value:
-                    bandwidth: KBytes, packetloss: ms, allpackets: 0/
-                    待修复
-
-                    status:已修复
-                 */
-
-                //value.toString();
-
-                /**
-                 * 对bandwith进行秒级别的聚合
-                 */
-                if(index_bandwitdh[key] == 0 || index_bandwitdh[key] == NULL){
-                    index_bandwitdh[key] = 0;
-                }
-                int base_bandwith = index_bandwitdh[key];
-                //cout << base_bandwith << endl;
-                int add_bandwith = atoi(value.getBandwidth().c_str());
-                //cout << add_bandwith << endl;
-                int tempsum_bandwith = base_bandwith + add_bandwith;
-
-                index_bandwitdh[key] = tempsum_bandwith;
-                //cout << index_bandwitdh[key] << endl;
-
-
-                /**
-                 * 对droppackets进行秒级别聚合
-                 */
-                if(index_droppackets[key] == 0 || index_droppackets[key] == NULL){
-                    index_droppackets[key] = 0;
-                }
-                int base_droppackets = index_droppackets[key];
-                int add_droppackets = atoi(value.getLosspackets().c_str());
-                int tempsum_droppackets = base_droppackets + add_droppackets;
-                index_droppackets[key] = tempsum_droppackets;
-                //cout << index_droppackets[key] << endl;
-
-
-                /**
-                 * 对allpackets进行秒级别的聚合
-                 */
-                if(index_allpackets[key] == 0 || index_allpackets[key] == NULL){
-                    index_allpackets[key] = 0;
-                }
-                int base_allpackets = index_allpackets[key];
-                int add_allpackets = atoi(value.getAllpackets().c_str());
-                int tempsum_allpackets = base_allpackets + add_allpackets;
-                index_allpackets[key] = tempsum_allpackets;
-                //cout << index_allpackets[key] << endl;
-
-
-
-
-            }
-            cout << "==========" << endl;
-
-
-            queue.pop();
-        }else{
-            //找到client标识，即为client类型
-            //queue.pop();
-            /**
-             * client类型的node放到别的方法,这块废弃
-             */
+            //frontstring+e 就是要读的文件名
+            sum += ReadServerDataFromFileToDouble(frontstring+e);
         }
-
-
+        q.pop();
     }
-
-
-    /**
-     * test 三个统计的hashmap
-     * 得到1分钟内每秒的所有流的带宽信息，丢包信息，总包数信息(16条)
-     */
-    cout << "index_bandwitdh.size(): " << index_bandwitdh.size() << endl;
-    cout << "index_droppackets.size(): " << index_droppackets.size() << endl;
-    cout << "index_allpackets.size(): " << index_allpackets.size() << endl;
-
-    /**
-     * 写到数据库
-     * springboot或django展示
-     */
-    map<double, int>::iterator it;
-    it = index_bandwitdh.begin();
-    //auto index_bandwith_begin = index_bandwitdh.begin();
-
-    while(it != index_bandwitdh.end()){
-
-        double key = it->first;
-        int value = it->second;
-        double meanvalue = value / 16; //目前设置的是16条流
-        /**
-         * key value写入数据库
-         * key 1-60(0-59)
-         * value 每秒 16条流的平均值
-         */
-
-
-        //===========================================
-
-
-
-        it++;
-    }
-    if(queue.empty()){
-        cout << endl;
-
-    }
+    //平均每個（src，dst）的丢包率
+    cout << "平均丢包率" << sum / n << "%" << endl;
+    double meanPL = sum / n;
 
 }
 
 
+double Tools::ReadServerDataFromFileToDouble(string s) {
+    //cout << s << endl;
+    double result = 0;
+    ifstream fin(s);
+    const   int  LINE_LENGTH =  100 ;
+    char  str[LINE_LENGTH];
+    int index = 0;
 
+    while( fin.getline(str, LINE_LENGTH)){
+        index++;
+    }
+    //cout << index << "===" << endl;
+    int i = 0;
+    fin.close();
+    ifstream fin1(s);
+    //到达有信息的行
+    while( fin1.getline(str, LINE_LENGTH) && i < index){
+        i++;
+        if(i == index-1){
+            istringstream iss(str);
+            vector<string> strs{istream_iterator<string>(iss), istream_iterator<string>()};
+//            for(string s : strs){
+//                cout << s << endl;
+//            }
+
+            // strs[11] : (0%)
+            string Pertemp = strs[strs.size()-1];
+            string strs11_etl = Pertemp.substr(1, Pertemp.size()-2);
+            // strs11_etl : 0.012%
+            double packetls = atof(strs11_etl.substr(0, strs11_etl.size()-1).c_str());
+            //packetls : 0.012
+            //cout << packetls << " " << endl;
+            result = packetls;
+        }
+    }
+    return result;
+
+}
 
