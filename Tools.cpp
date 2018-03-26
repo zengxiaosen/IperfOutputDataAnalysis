@@ -36,11 +36,12 @@ double Tools::ReadClientDataFromFileToDouble(string s) {
 //        }
 
         // strs[11] : (0%)
-        string strs11_etl = strs[11].substr(1, strs[11].size()-2);
+        string Pertemp = strs[strs.size()-1];
+        string strs11_etl = Pertemp.substr(1, Pertemp.size()-2);
         // strs11_etl : 0.012%
         double packetls = atof(strs11_etl.substr(0, strs11_etl.size()-1).c_str());
         //packetls : 0.012
-        //cout << packetls << " " << endl;
+        cout << packetls << " " << endl;
         result = packetls;
     }
     return result;
@@ -61,8 +62,8 @@ void Tools::readQueueClient(queue<string> q) {
         }
         q.pop();
     }
-    //平均每条流的丢包率
-    cout << "平均每条流的丢包率" << sum / n << "%" << endl;
+    //平均每個（src，dst）的丢包率
+    cout << "平均丢包率" << sum / n << "%" << endl;
     double meanPL = sum / n;
     //每次测试，比如iperf 300秒，会产生一个值
     //第1行，代表源目打3M， link capacity为 10M
