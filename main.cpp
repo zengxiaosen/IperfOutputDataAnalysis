@@ -9,9 +9,38 @@
 #include <map>
 #include <sstream>
 #include <iterator>
+#include <thread>
 #include "Tools.h"
+
+#include <utility>
+#include <thread>
+#include <chrono>
+#include <functional>
+#include <atomic>
 #include "zbInfoNode.h"
 
+//queue<string> queue
+
+void function2(queue<string> queue){
+    Tools tools;
+    tools.readQueueClient(queue);
+}
+
+void function1(queue<string> queue){
+    Tools tools;
+    tools.readQueue(queue);
+}
+
+void function3(int n)
+{
+    for (int i = 0; i < 5; ++i) {
+        std::cout << "Thread " << n << " executing\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+}
+void thread_task() {
+    std::cout << "hello thread" << std::endl;
+}
 using namespace std;
 
 
@@ -72,11 +101,22 @@ int main() {
     }
     map<string, zbInfoNode> index_infoServerNode;
 
-    Tools tools;
-    tools.readQueue(q_server);
-    //tools.readQueueClient(q_client);
-    cout << "q_client.size(): " << q_client.size() << endl;
 
+
+//    function1(q_server);
+//    function2(q_client);
+    std::thread t1(function1, q_server);
+    std::thread t2(function2, q_client);
+    t1.join();
+    t2.join();
+
+//    int n = 5;
+//    std::thread t3(function3, n + 1); // pass by value
+//    t3.join();
+//
+//
+//    std::thread t(thread_task);
+//    t.join();//和主线程协同
 
 
 
@@ -84,3 +124,7 @@ int main() {
 
     return 0;
 }
+
+
+
+
