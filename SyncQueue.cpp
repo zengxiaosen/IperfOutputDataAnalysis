@@ -2,6 +2,7 @@
 // Created by root on 18-4-8.
 //
 
+#include <thread>
 #include "SyncQueue.h"
 
 SyncQueue::SyncQueue(int maxSize) : m_maxSize(maxSize), m_needStop(false) {
@@ -71,4 +72,47 @@ void SyncQueue::Stop(){
 }
 
 
+bool SyncQueue::Empty(){
+    std::lock_guard<std::mutex> locker(m_mutex);
+    return m_queue.empty();
+}
 
+bool SyncQueue::Full(){
+    std::lock_guard<std::mutex> locker(m_mutex);
+    return m_queue.size() == m_maxSize;
+}
+
+size_t SyncQueue::Size(){
+    std::lock_guard<std::mutex> locker(m_mutex);
+    return m_queue.size();
+}
+
+int SyncQueue::Count(){
+    return m_queue.size();
+}
+
+bool SyncQueue::NotFull() const{
+    bool full = m_queue.size() >= m_maxSize;
+    if(full){
+        cout << "缓冲区满了，需要等待..." << endl;
+    }
+    return !full;
+}
+
+bool SyncQueue::NotEmpty() const {
+    bool empty = m_queue.empty();
+    if(empty){
+        cout << "缓冲区空了，需要等待..., 异步层的线程ID： " << this_thread::get_id() << endl;
+    }
+    return !empty;
+}
+
+/**
+ *
+ * @tparam F
+ * @param x
+ */
+template<typename F>
+void SyncQueue::Add(F&& x){
+
+}

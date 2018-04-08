@@ -60,12 +60,14 @@
       <file leaf-file-name="SyncQueue.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SyncQueue.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="708">
-              <caret line="60" column="48" lean-forward="false" selection-start-line="60" selection-start-column="48" selection-end-line="60" selection-end-column="48" />
+            <state relative-caret-position="528">
+              <caret line="110" column="2" lean-forward="false" selection-start-line="110" selection-start-column="2" selection-end-line="110" selection-end-column="2" />
               <folding>
-                <element signature="e#149#161#0" expanded="true" />
-                <element signature="e#588#600#0" expanded="true" />
-                <element signature="e#880#892#0" expanded="true" />
+                <element signature="e#37#54#0" expanded="true" />
+                <element signature="e#167#179#0" expanded="true" />
+                <element signature="e#606#618#0" expanded="true" />
+                <element signature="e#898#910#0" expanded="true" />
+                <element signature="e#2674#2686#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -436,16 +438,15 @@
       <workItem from="1522051440192" duration="18002000" />
       <workItem from="1522598218823" duration="6371000" />
       <workItem from="1522823444478" duration="914000" />
-      <workItem from="1523165583814" duration="7097000" />
+      <workItem from="1523165583814" duration="7949000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="84696000" />
+    <option name="totallyTimeSpent" value="85548000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1431" y="-4" width="1855" height="1084" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2322118" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -455,7 +456,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34460548" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15296566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15296566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4526535" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -931,12 +932,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SyncQueue.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="708">
-          <caret line="60" column="48" lean-forward="false" selection-start-line="60" selection-start-column="48" selection-end-line="60" selection-end-column="48" />
+        <state relative-caret-position="528">
+          <caret line="110" column="2" lean-forward="false" selection-start-line="110" selection-start-column="2" selection-end-line="110" selection-end-column="2" />
           <folding>
-            <element signature="e#149#161#0" expanded="true" />
-            <element signature="e#588#600#0" expanded="true" />
-            <element signature="e#880#892#0" expanded="true" />
+            <element signature="e#37#54#0" expanded="true" />
+            <element signature="e#167#179#0" expanded="true" />
+            <element signature="e#606#618#0" expanded="true" />
+            <element signature="e#898#910#0" expanded="true" />
+            <element signature="e#2674#2686#0" expanded="true" />
           </folding>
         </state>
       </provider>
