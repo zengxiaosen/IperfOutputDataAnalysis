@@ -17,6 +17,7 @@
 #include <chrono>
 #include <functional>
 #include <atomic>
+#include <future>
 #include "zbInfoNode.h"
 
 //queue<string> queue
@@ -43,8 +44,7 @@ void thread_task() {
 }
 using namespace std;
 
-
-
+和
 
 
 int main() {
@@ -107,8 +107,10 @@ int main() {
 //    function2(q_client);
     std::thread t1(function1, q_server);
     std::thread t2(function2, q_client);
+
     t1.join();
     t2.join();
+
 
 //    int n = 5;
 //    std::thread t3(function3, n + 1); // pass by value

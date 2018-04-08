@@ -123,6 +123,33 @@ IperfOutputDataAnalysis/fast:
 	$(MAKE) -f CMakeFiles/IperfOutputDataAnalysis.dir/build.make CMakeFiles/IperfOutputDataAnalysis.dir/build
 .PHONY : IperfOutputDataAnalysis/fast
 
+SyncQueue.o: SyncQueue.cpp.o
+
+.PHONY : SyncQueue.o
+
+# target to build an object file
+SyncQueue.cpp.o:
+	$(MAKE) -f CMakeFiles/IperfOutputDataAnalysis.dir/build.make CMakeFiles/IperfOutputDataAnalysis.dir/SyncQueue.cpp.o
+.PHONY : SyncQueue.cpp.o
+
+SyncQueue.i: SyncQueue.cpp.i
+
+.PHONY : SyncQueue.i
+
+# target to preprocess a source file
+SyncQueue.cpp.i:
+	$(MAKE) -f CMakeFiles/IperfOutputDataAnalysis.dir/build.make CMakeFiles/IperfOutputDataAnalysis.dir/SyncQueue.cpp.i
+.PHONY : SyncQueue.cpp.i
+
+SyncQueue.s: SyncQueue.cpp.s
+
+.PHONY : SyncQueue.s
+
+# target to generate assembly for a file
+SyncQueue.cpp.s:
+	$(MAKE) -f CMakeFiles/IperfOutputDataAnalysis.dir/build.make CMakeFiles/IperfOutputDataAnalysis.dir/SyncQueue.cpp.s
+.PHONY : SyncQueue.cpp.s
+
 Tools.o: Tools.cpp.o
 
 .PHONY : Tools.o
@@ -213,6 +240,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... IperfOutputDataAnalysis"
+	@echo "... SyncQueue.o"
+	@echo "... SyncQueue.i"
+	@echo "... SyncQueue.s"
 	@echo "... Tools.o"
 	@echo "... Tools.i"
 	@echo "... Tools.s"
