@@ -51,7 +51,14 @@ void SyncQueue::Take(T& t){
 }
 
 /**
- *
+ *stop函数先获取mutex，然后将停止标志设置为true。注意，这里为了保证线程安全，这里需要先获取mutex，
+ * 在将其标志置为true之后，再唤醒所有等待的线程，因为等待的条件是m_needStop，并且满足条件，所以线程
+ * 会继续往下执行。由于线程在m_needStop为true时会退出,所以所有的等待线程会相继退出。另外，把m_notFull
+ * .notify_all()放到lock_guard保护范围之外了，这里页可以将m_notFull.notify_all()放到lock_guard
+ * 保护范围之内，放到外面是为了一点优化。因为notify_one或notify_all会唤醒一个在等待的线程，线程被唤醒后
+ * 会先获取mutex再检查条件是否满足，如果这时被lock_guard保护，被唤醒的线程需要lock_guard析构释放mutex
+ * 才能获取。如果在lock_guard之外nortify_one或nortify_all,被唤醒的线程获取锁的时候不需要等待lock_guard
+ * 释放锁，性能会好一点，所以在执行notify_one/notify_all时不需要枷锁保护
  */
 void SyncQueue::Stop(){
 
