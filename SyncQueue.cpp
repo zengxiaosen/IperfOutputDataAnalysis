@@ -36,3 +36,32 @@ void SyncQueue::Take(T &list) {
     m_notFull.notify_one();
 }
 
+template<typename T>
+void SyncQueue::Take(T& t){
+    std::unique_lock<std::mutex> locker(m_mutex);
+    m_notEmpty.wait(locker, [this]{
+        return m_needStop || NotEmpty();
+    });
+    if(m_needStop){
+        return;
+    }
+    t = m_queue.front();
+    m_queue.pop_front();
+    m_notFull.notify_one();
+}
+
+/**
+ *
+ */
+void SyncQueue::Stop(){
+
+    {
+        std::lock_guard<std::mutex> locker(m_mutex);
+        m_needStop = true;
+    }
+    m_notFull.notify_all();
+    m_notEmpty.notify_all();
+}
+
+
+
