@@ -87,7 +87,7 @@
 		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/SyncQueue.cpp">
 			<Option target="IperfOutputDataAnalysis"/>
 		</Unit>
-		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/SyncQueue.h">
+		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/SyncQueue.hpp">
 			<Option target="IperfOutputDataAnalysis"/>
 		</Unit>
 		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/Tools.cpp">

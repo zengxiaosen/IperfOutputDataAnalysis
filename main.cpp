@@ -44,7 +44,7 @@ void thread_task() {
 }
 using namespace std;
 
-和
+
 
 
 int main() {
