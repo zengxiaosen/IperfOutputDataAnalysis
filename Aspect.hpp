@@ -19,5 +19,62 @@
  */
 #ifndef IPERFOUTPUTDATAANALYSIS_ASPECT_H
 #define IPERFOUTPUTDATAANALYSIS_ASPECT_H
+/**
+ * 这里使用模板来做约束，即每个切面对象必须有Before(Args...)或After(Args...)方法，
+ * 用来处理核心逻辑执行前后的非核心逻辑。
+ *
+ * 参数是可变的，支持1到N（N>0)切面
+ */
+#include <type_traits>
 
+#define HAS_MEMBER(member)\
+template<typename T, typename... Args>struct has_member_##member\
+{\
+private:\
+		template<typename U> static auto Check(int) -> decltype(std::declval<U>().member(std::declval<Args>()...), std::true_type()); \
+	template<typename U> static std::false_type Check(...);\
+public:\
+	enum{value = std::is_same<decltype(Check<T>(0)), std::true_type>::value};\
+};\
+
+HAS_MEMBER(Foo)
+HAS_MEMBER(Before)
+HAS_MEMBER(After)
+
+#include <NonCopyable.hpp>
+#include <utility>
+#include "NonCopyable.hpp"
+
+template<typename Func, typename... Args>
+struct Aspect : NonCopyable{
+    Aspect(Func&& f) : m_func(std::forward<Func>(f)){
+
+    }
+
+    template<typename T>
+    typename std::enable_if<has_member_Before<T, Args...>::value&&has_member_After<T, Args...>::value>::type Invoke(Args&&... args, T&& aspect){
+        aspect.Before(std::forward<Args>(args)...);//核心逻辑之前的切面逻辑
+        m_func(std::forward<Args>(args)...);//核心逻辑
+        aspect.After(std::forward<Args>(args)...);//核心逻辑之后的切面逻辑
+    };
+
+    template<typename T>
+    typename std::enable_if<has_member_Before<T, Args...>::value&&has_member_After<T, Args...>::value>::type Invoke(Args&&... args, T&& aspect){
+        aspect.Before(std::forward<Args>(args)...);//核心逻辑之前的切面逻辑
+        m_func(std::forward<Args>(args)...);
+    };
+
+    template<typename T>
+    typename std::enable_if<!has_member_Before<T, Args...>::value&&has_member_After<T, Args...>::value>::type Invoke(Args&&... args, T&& aspect)
+    {
+        m_func(std::forward<Args>(args)...);//核心逻辑
+        aspect.After(std::forward<Args>(args)...);//核心逻辑之后的切面逻辑
+    }
+
+
+
+
+private:
+    Func m_func;
+};
 #endif //IPERFOUTPUTDATAANALYSIS_ASPECT_H
