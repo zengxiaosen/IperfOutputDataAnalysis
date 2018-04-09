@@ -26,15 +26,14 @@
 #include "LoggingAspect.hpp"
 #include "TimeElapsedAspect.hpp"
 #include "MainWork.hpp"
+#include "Ioc.hpp"
 
 
 using namespace std;
 
-void foo(int a)
-{
-    cout <<"real HT function: "<<a<< endl;
-}
 int main() {
+
+
 
     /**
      * 读取文件信息
