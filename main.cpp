@@ -22,10 +22,18 @@
 #include "ThreadPool.hpp"
 #include "TaskFunctionCollections.hpp"
 #include "PreIO.hpp"
+#include "Aspect.hpp"
+#include "LoggingAspect.hpp"
+#include "TimeElapsedAspect.hpp"
+#include "MainWork.hpp"
 
 
 using namespace std;
 
+void foo(int a)
+{
+    cout <<"real HT function: "<<a<< endl;
+}
 int main() {
 
     /**
@@ -42,48 +50,33 @@ int main() {
      */
     cout << "统计iperf产出的流量日志信息" << std::endl;
 
-    queue<string> q_server ;
+    queue<string> q_server;
     queue<string> q_client;
     PreIO preIO("/home/zengxiaosen/log");
     preIO.WriteDataToQueue(q_server, q_client);
 
     /**
+     * 测试：通过aop记录目标函数的执行时间并输出日志，
+     * 其中时间和日志放到切面中。
+     * 在执行函数之前输出日志，在执行完成之后也输出日志，
+     * 并对执行的函数进行计时。
+     */
+    //Invoke<LoggingAspect, TimeElapsedAspect>(&foo, 1); //织入方法
+    /**
      * 线程池初始创建两个线程
      * 线程池内的线程会并行处理同步队列中的任务
      */
-    ThreadPool pool;
-
-    TaskFunctionCollections* taskFunctionCollections = TaskFunctionCollections::getInstance();
-    pthread_mutex_init(&TaskFunctionCollections::mtx, 0);
-    std::thread thd1([&pool, &q_client, &taskFunctionCollections]{
-        auto thdId = this_thread::get_id();
-
-        pool.AddTask([thdId, q_client, taskFunctionCollections]{
-            cout << "分发解析client日志任务,同步层线程1的线程id： " << thdId << endl;
-            taskFunctionCollections->function2(q_client);
-        });
-    });
-
-    std::thread thd2([&pool, &q_server, &taskFunctionCollections]{
-        auto thdId = this_thread::get_id();
-        pool.AddTask([thdId, q_server, taskFunctionCollections]{
-            cout << "分发解析server日志任务,同步层线程2的线程id： " << thdId << endl;
-            taskFunctionCollections->function1(q_server);
-        });
-    });
-
-    this_thread::sleep_for(std::chrono::seconds(2));
-    cout << "请输入任意字符结束: " << endl;
-    getchar();
-    pool.Stop();
-    thd1.join();
-    thd2.join();
+    //织入方法
+    Invoke<LoggingAspect, TimeElapsedAspect>(&MainWork::DealStatistic, q_server, q_client);
+    //MainWork::DealStatistic(q_server, q_client);
 
 
 
 
     return 0;
 }
+
+
 
 
 

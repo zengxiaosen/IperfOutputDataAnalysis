@@ -87,6 +87,12 @@
 		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/Aspect.hpp">
 			<Option target="IperfOutputDataAnalysis"/>
 		</Unit>
+		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/LoggingAspect.hpp">
+			<Option target="IperfOutputDataAnalysis"/>
+		</Unit>
+		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/MainWork.hpp">
+			<Option target="IperfOutputDataAnalysis"/>
+		</Unit>
 		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/NonCopyable.hpp">
 			<Option target="IperfOutputDataAnalysis"/>
 		</Unit>
@@ -100,6 +106,12 @@
 			<Option target="IperfOutputDataAnalysis"/>
 		</Unit>
 		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/ThreadPool.hpp">
+			<Option target="IperfOutputDataAnalysis"/>
+		</Unit>
+		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/TimeElapsedAspect.hpp">
+			<Option target="IperfOutputDataAnalysis"/>
+		</Unit>
+		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/Timer.hpp">
 			<Option target="IperfOutputDataAnalysis"/>
 		</Unit>
 		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/Tools.cpp">
