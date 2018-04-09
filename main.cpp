@@ -73,6 +73,7 @@ int main() {
     });
 
     this_thread::sleep_for(std::chrono::seconds(2));
+    cout << "请输入任意字符结束: " << endl;
     getchar();
     pool.Stop();
     thd1.join();
