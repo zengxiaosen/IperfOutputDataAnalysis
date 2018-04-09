@@ -5,7 +5,9 @@ CMakeFiles/IperfOutputDataAnalysis.dir/Tools.cpp.o: ../Tools.cpp
 CMakeFiles/IperfOutputDataAnalysis.dir/Tools.cpp.o: ../Tools.h
 CMakeFiles/IperfOutputDataAnalysis.dir/Tools.cpp.o: ../zbInfoNode.h
 
+CMakeFiles/IperfOutputDataAnalysis.dir/main.cpp.o: ../PreIO.hpp
 CMakeFiles/IperfOutputDataAnalysis.dir/main.cpp.o: ../SyncQueue.hpp
+CMakeFiles/IperfOutputDataAnalysis.dir/main.cpp.o: ../TaskFunctionCollections.hpp
 CMakeFiles/IperfOutputDataAnalysis.dir/main.cpp.o: ../ThreadPool.hpp
 CMakeFiles/IperfOutputDataAnalysis.dir/main.cpp.o: ../Tools.h
 CMakeFiles/IperfOutputDataAnalysis.dir/main.cpp.o: ../main.cpp

@@ -6,7 +6,9 @@ CMakeFiles/IperfOutputDataAnalysis.dir/Tools.cpp.o
  /root/CLionProjects/IperfOutputDataAnalysis/Tools.h
  /root/CLionProjects/IperfOutputDataAnalysis/zbInfoNode.h
 CMakeFiles/IperfOutputDataAnalysis.dir/main.cpp.o
+ /root/CLionProjects/IperfOutputDataAnalysis/PreIO.hpp
  /root/CLionProjects/IperfOutputDataAnalysis/SyncQueue.hpp
+ /root/CLionProjects/IperfOutputDataAnalysis/TaskFunctionCollections.hpp
  /root/CLionProjects/IperfOutputDataAnalysis/ThreadPool.hpp
  /root/CLionProjects/IperfOutputDataAnalysis/Tools.h
  /root/CLionProjects/IperfOutputDataAnalysis/main.cpp

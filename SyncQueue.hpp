@@ -92,7 +92,7 @@ private:
     {
         bool empty = m_queue.empty();
         if (empty)
-            cout << "线程池的缓冲区没有任务,需要等待,异步层的线程id: " << this_thread::get_id() << endl;
+            cout << "等待...目前线程池的缓冲区没有任务,异步层的线程id: " << this_thread::get_id() << endl;
         return !empty;
     }
 
