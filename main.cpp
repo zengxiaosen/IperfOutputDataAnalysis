@@ -19,6 +19,7 @@
 #include <atomic>
 #include <future>
 #include "zbInfoNode.h"
+#include "ThreadPool.hpp"
 
 //queue<string> queue
 
@@ -105,11 +106,12 @@ int main() {
 
 //    function1(q_server);
 //    function2(q_client);
-    std::thread t1(function1, q_server);
-    std::thread t2(function2, q_client);
 
-    t1.join();
-    t2.join();
+//    std::thread t1(function1, q_server);
+//    std::thread t2(function2, q_client);
+//
+//    t1.join();
+//    t2.join();
 
 
 //    int n = 5;
@@ -120,6 +122,32 @@ int main() {
 //    std::thread t(thread_task);
 //    t.join();//和主线程协同
 
+    /**
+     * 线程池初始创建两个线程
+     * 线程池内的线程会并行处理同步队列中的任务
+     */
+    ThreadPool pool;
+    std::thread thd1([&pool]{
+       auto thdId = this_thread::get_id();
+        pool.AddTask([thdId]{
+            cout << "同步层线程1的线程ID： " << thdId << endl;
+            //function1(q_server);
+        });
+    });
+
+    std::thread thd2([&pool]{
+        auto thdId = this_thread::get_id();
+        pool.AddTask([thdId]{
+            cout << "同步层线程2的线程ID： " << thdId << endl;
+            //function2(q_client);
+        });
+    });
+
+    this_thread::sleep_for(std::chrono::seconds(2));
+    getchar();
+    pool.Stop();
+    thd1.join();
+    thd2.join();
 
 
 

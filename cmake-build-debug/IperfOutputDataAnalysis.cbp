@@ -84,10 +84,10 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/SyncQueue.cpp">
+		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/SyncQueue.hpp">
 			<Option target="IperfOutputDataAnalysis"/>
 		</Unit>
-		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/SyncQueue.hpp">
+		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/ThreadPool.hpp">
 			<Option target="IperfOutputDataAnalysis"/>
 		</Unit>
 		<Unit filename="/root/CLionProjects/IperfOutputDataAnalysis/Tools.cpp">
