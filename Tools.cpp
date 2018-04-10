@@ -7,6 +7,7 @@
 #include <cstring>
 #include "Tools.h"
 #include "zbInfoNode.h"
+#include "LogData.hpp"
 #include <string>
 #include <stdio.h>
 #include <fstream>
@@ -63,7 +64,16 @@ void Tools::readQueueClient(queue<string> q) {
         q.pop();
     }
     //平均每個（src，dst）的丢包率
-    cout << "c平均丢包率" << sum / n << "%" << endl;
+    //cout << "c平均丢包率" << sum / n << "%" << endl;
+    //
+    std::ostringstream stream;
+    stream << sum/n;
+    string oTostring = stream.str();
+    LogData logDataTemp;
+    string logWrite = "c平均丢包率" + oTostring + "%";
+    cout << logWrite << endl;
+    logDataTemp.AddClientLog(logWrite);
+
     double meanPL = sum / n;
     //每次测试，比如iperf 300秒，会产生一个值
     //第1行，代表源目打3M， link capacity为 10M
@@ -215,7 +225,18 @@ void Tools::readQueue(queue<string> &q) {
         q.pop();
     }
     //平均每個（src，dst）的丢包率
-    cout << "平均丢包率" << sum / n << "%" << endl;
+    //cout << "平均丢包率" << sum / n << "%" << endl;
+
+    std::ostringstream stream;
+    stream << sum/n;
+    string oTostring = stream.str();
+    LogData logDataTemp;
+    string logWrite = "c平均丢包率" + oTostring + "%";
+    cout << logWrite << endl;
+    logDataTemp.AddServerLog(logWrite);
+
+
+
     double meanPL = sum / n;
 
 }

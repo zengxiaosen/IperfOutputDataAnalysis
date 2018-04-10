@@ -11,10 +11,13 @@
 #include "ThreadPool.hpp"
 #include <queue>
 #include "TaskFunctionCollections.hpp"
+#include "LogData.hpp"
+
 class MainWork{
 public:
     static void DealStatistic(queue<string> q_server, queue<string> q_client){
         ThreadPool pool;
+        LogData *logData = new LogData();
 
         TaskFunctionCollections* taskFunctionCollections = TaskFunctionCollections::getInstance();
         pthread_mutex_init(&TaskFunctionCollections::mtx, 0);
@@ -27,7 +30,7 @@ public:
                 //Invoke<LoggingAspect, TimeElapsedAspect>(taskFunctionCollections->function2, q_client);
             });
         });
-        cout << "----" << endl;
+
         std::thread thd2([&pool, &q_server, &taskFunctionCollections]{
             auto thdId = this_thread::get_id();
             pool.AddTask([thdId, q_server, taskFunctionCollections]{
@@ -36,13 +39,22 @@ public:
                 //Invoke<LoggingAspect, TimeElapsedAspect>(taskFunctionCollections->function1, q_server);
             });
         });
+        //轮询读LogData中的同步队列中是否有log信息，然后输出
+        std::thread thd_log([&logData]{
+            logData->ReadLog();
+        });
 
-        this_thread::sleep_for(std::chrono::seconds(2));
+        this_thread::sleep_for(std::chrono::seconds(9));
         cout << "请输入任意字符结束: " << endl;
         getchar();
         pool.Stop();
+
         thd1.join();
         thd2.join();
+        thd_log.join();
+        //这一步之前，任务线程肯定已经把各自产出的日志达到全局区的queue
+
+        delete logData;
     }
 };
 #endif //IPERFOUTPUTDATAANALYSIS_MAINWORK_H

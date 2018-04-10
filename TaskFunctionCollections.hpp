@@ -6,6 +6,7 @@
 #define IPERFOUTPUTDATAANALYSIS_TASKFUNCTIONCOLLECTIONS_H
 
 #include "Tools.h"
+#include "LogData.hpp"
 #include <queue>
 /**
  * 这个类相当于一个任务管理器
@@ -32,12 +33,17 @@ public:
         }
         return singleTask;
     }
-    void function2(queue<string> queue){
+    void function2(queue<string> queue) {
+
+        cout << "取任务执行的异步层线程id： " << endl;
+        cout  << std::this_thread::get_id() << endl;
         Tools tools;
         tools.readQueueClient(queue);
 
     }
-    void function1(queue<string> queue){
+    void function1(queue<string> queue) {
+        cout << "取任务执行的异步层线程id： " << endl;
+        cout  << std::this_thread::get_id() << endl;
         Tools tools;
         tools.readQueue(queue);
     }

@@ -18,6 +18,7 @@
 #include <functional>
 #include <atomic>
 #include <future>
+#include <set>
 #include "zbInfoNode.h"
 #include "ThreadPool.hpp"
 #include "TaskFunctionCollections.hpp"
@@ -30,9 +31,10 @@
 
 
 using namespace std;
-
+int LogData::test = 0;
+string LogData::serverlog = "";
+string LogData::clientlog = "";
 int main() {
-
 
 
     /**
@@ -74,7 +76,6 @@ int main() {
 
     return 0;
 }
-
 
 
 

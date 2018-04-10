@@ -48,6 +48,7 @@ private:
     void RunInThread(){
         while(m_running){
             //取任务分别执行
+
             std::list<Task> list;
             m_queue.Take(list);
             for(auto& task : list){
@@ -55,6 +56,7 @@ private:
                     return;
                 }
                 //using Task = std::function<void() >;
+                //cout << "取任务执行的异步层线程id： " << std::this_thread::get_id() << endl;
                 task();
             }
         }

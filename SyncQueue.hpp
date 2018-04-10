@@ -10,6 +10,9 @@ template<typename T>
 class SyncQueue
 {
 public:
+    SyncQueue(){
+
+    }
     SyncQueue(int maxSize) :m_maxSize(maxSize), m_needStop(false)
     {
     }
